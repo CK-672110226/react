@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Container({ children }) {
-  return <main>{children}</main>;
+function Container({ children, className }) {
+  return <main className={className}>{children}</main>;
 }
 
 Container.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
 };
 
 export default Container;

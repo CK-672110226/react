@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// global styles are provided by styled-components GlobalStyle
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 

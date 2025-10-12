@@ -1,14 +1,17 @@
 import React from 'react';
-import Navbar from './features/Navbar.js';
-import Container from './features/Container.js';
-import Home from './features/Home.js';
+import GlobalStyle from './features/GlobalStyle';
+import StyledNavbar from './features/StyledNavbar';
+import StyledContainer from './features/StyledContainer';
+import StyledHome from './features/StyledHome';
+
 function App() {
   return (
     <>
-      <Navbar />
-      <Container>
-        <Home />
-      </Container>
+      <GlobalStyle />
+      <StyledNavbar />
+      <StyledContainer>
+        <StyledHome />
+      </StyledContainer>
     </>
   );
 }
