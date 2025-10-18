@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function Navbar({ className }) {
   return (
     <header className={className}>
-      <a href="/" className="brand">
+      <Link to="/" className="brand">
         Trendie
-      </a>
-      <a href="/create-product">Create product</a>
+      </Link>
+      <Link to="/create-product">Create product</Link>
     </header>
   );
 }
