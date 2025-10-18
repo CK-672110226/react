@@ -1,39 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateProduct, deleteProduct } from './actions';
 
-function UpdateForm({ products = [], updateProduct, deleteProduct }) {
+function UpdateForm({ products = [], updateProduct: _u, deleteProduct: _d }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const productsFromStore = useSelector((state) => state.products) || products;
 
   const [name, setName] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [type, setType] = useState('');
 
-  // when products prop is available, prefill the form
+  // when products prop or store is available, prefill the form
   useEffect(() => {
-    if (products && products.length > 0) {
-      const product = products.find((p) => String(p.id) === String(id));
+    const list = productsFromStore;
+    if (list && list.length > 0) {
+      const product = list.find((p) => String(p.id) === String(id));
       if (product) {
         setName(product.name || '');
         setImageURL(product.imageURL || '');
         setType(product.type || '');
       }
     }
-  }, [id, products]);
+  }, [id, productsFromStore]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const updates = { name, imageURL, type };
-    if (updateProduct) {
-      await updateProduct(id, updates);
-    }
+    const updates = { id: Number(id) || id, name, imageURL, type };
+    // prefer dispatching to store
+    dispatch(updateProduct(updates));
     navigate('/');
   };
 
   const handleDelete = async () => {
-    if (deleteProduct) {
-      await deleteProduct(id);
-    }
+    dispatch(deleteProduct({ id: Number(id) || id }));
     navigate('/');
   };
 

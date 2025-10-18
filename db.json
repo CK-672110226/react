@@ -1,38 +1,39 @@
 {
   "products": [
     {
-      "id": "1",
-      "title": "Product A",
+      "id": 1,
+      "name": "Product A",
       "price": 19.99,
       "description": "Example product A",
-      "image": "https://via.placeholder.com/150",
+      "imageURL": "shirt.jpg",
       "category": "toys",
       "stock": 5,
       "createdAt": "2025-10-12T08:00:00Z",
       "updatedAt": "2025-10-12T08:00:00Z"
     },
     {
-      "id": "2",
-      "title": "Product B",
+      "id": 2,
+      "name": "Product B",
       "price": 29.99,
       "description": "Example product B",
-      "image": "https://via.placeholder.com/150",
+      "imageURL": "purse.jpg",
       "category": "books",
       "stock": 10,
       "createdAt": "2025-10-12T08:00:00Z",
       "updatedAt": "2025-10-12T08:00:00Z"
     },
     {
-      "id": "3",
-      "title": "Product C",
+      "id": 3,
+      "name": "Product C",
       "price": 9.99,
       "description": "Example product C",
-      "image": "https://via.placeholder.com/150",
+      "imageURL": "necklace.jpg",
       "category": "stationery",
       "stock": 20,
       "createdAt": "2025-10-12T08:00:00Z",
       "updatedAt": "2025-10-12T08:00:00Z"
-    },
+    }
+    ,
     {
       "id": "1760760500709",
       "name": "Home Shirt",

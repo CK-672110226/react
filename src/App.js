@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchProducts, addProduct, updateProduct, deleteProduct } from './features/Product/actions';
 
 import GlobalStyle from './features/GlobalStyle';
 import StyledNavbar from './features/StyledNavbar';
@@ -9,11 +11,12 @@ import StyledHome from './features/StyledHome';
 
 import AddForm from './features/Product/AddForm';
 import UpdateForm from './features/Product/UpdateForm';
-import data from './app/data';
 
 function App() {
-  const [products, setProducts] = useState([]);
-  const [dataSource, setDataSource] = useState('loading');
+  const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  // keep remote results separate so we can show bundled data first
+  const [remoteProducts, setRemoteProducts] = useState(null);
 
   useEffect(() => {
     async function getProducts() {
@@ -21,64 +24,59 @@ function App() {
         const apiUrl = process.env.REACT_APP_API_URL || 'https://apimocha.com/react-redux-class/products';
         const res = await axios.get(apiUrl);
 
-        if (res && res.data && res.data.length) {
-          setProducts(res.data);
-          setDataSource('api');
-        } else {
-          setProducts(data);
-          setDataSource('fallback');
+        if (res && res.data) {
+          // Only replace the store products if the store is empty. Otherwise
+          // keep showing the bundled data and keep remote data aside.
+          if (!products || products.length === 0) {
+            if (res.data.length) dispatch(fetchProducts(res.data));
+          } else {
+            // merge remote results into the existing store (reducer will merge)
+            if (res.data.length) dispatch(fetchProducts(res.data));
+            setRemoteProducts(res.data);
+          }
         }
       } catch (err) {
+        // on error keep bundled data in reducer
         console.error('Failed to fetch products, using local data as fallback', err && err.message ? err.message : err);
-        setProducts(data);
-        setDataSource('fallback');
       }
     }
 
     getProducts();
-  }, []);
+  }, [dispatch, products]);
 
-  const addProduct = async ({ name, type, imageURL }) => {
-    const newProduct = { id: Date.now().toString(), name, type, imageURL };
+  const handleAddProduct = async ({ name, type, imageURL }) => {
+    const newProduct = { name, type, imageURL };
     const apiUrl = process.env.REACT_APP_API_URL || 'https://apimocha.com/react-redux-class/products';
     try {
-      // try to persist to API
       const res = await axios.post(apiUrl, newProduct);
       const created = res && res.data ? res.data : newProduct;
-      setProducts((prev) => [created, ...prev]);
-      setDataSource('api');
+      dispatch(addProduct(created));
     } catch (err) {
-      // fallback to local state
       console.error('Failed to add product to API, adding locally', err && err.message ? err.message : err);
-      setProducts((prev) => [newProduct, ...prev]);
-      setDataSource('fallback');
+      dispatch(addProduct(newProduct));
     }
   };
 
-  const updateProduct = async (id, updates) => {
+  const handleUpdateProduct = async (id, updates) => {
     const apiUrl = process.env.REACT_APP_API_URL || 'https://apimocha.com/react-redux-class/products';
     try {
       const res = await axios.put(`${apiUrl}/${id}`, updates);
       const updated = res && res.data ? res.data : { id, ...updates };
-      setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updated } : p)));
-      setDataSource('api');
+      dispatch(updateProduct(updated));
     } catch (err) {
       console.error('Failed to update product on API, updating locally', err && err.message ? err.message : err);
-      setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
-      setDataSource('fallback');
+      dispatch(updateProduct({ id, ...updates }));
     }
   };
 
-  const deleteProduct = async (id) => {
+  const handleDeleteProduct = async (id) => {
     const apiUrl = process.env.REACT_APP_API_URL || 'https://apimocha.com/react-redux-class/products';
     try {
       await axios.delete(`${apiUrl}/${id}`);
-      setProducts((prev) => prev.filter((p) => p.id !== id));
-      setDataSource('api');
+      dispatch(deleteProduct({ id }));
     } catch (err) {
       console.error('Failed to delete product on API, deleting locally', err && err.message ? err.message : err);
-      setProducts((prev) => prev.filter((p) => p.id !== id));
-      setDataSource('fallback');
+      dispatch(deleteProduct({ id }));
     }
   };
 
@@ -87,11 +85,11 @@ function App() {
       <GlobalStyle />
       <StyledNavbar />
       <StyledContainer>
-        {products.length > 0 ? (
+        {products && products.length > 0 ? (
           <Routes>
-            <Route path="/create-product" element={<AddForm addProduct={addProduct} />} />
-            <Route path="/update-product/:id" element={<UpdateForm products={products} updateProduct={updateProduct} deleteProduct={deleteProduct} />} />
-            <Route path="/" element={<StyledHome products={products} dataSource={dataSource} />} />
+            <Route path="/create-product" element={<AddForm addProduct={handleAddProduct} />} />
+            <Route path="/update-product/:id" element={<UpdateForm products={products} updateProduct={handleUpdateProduct} deleteProduct={handleDeleteProduct} />} />
+            <Route path="/" element={<StyledHome products={products} />} />
           </Routes>
         ) : (
           <div>Loading products....</div>
