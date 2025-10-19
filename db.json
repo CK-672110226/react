@@ -1,56 +1,5 @@
 {
   "products": [
-    {
-      "id": 1,
-      "name": "Product A",
-      "price": 19.99,
-      "description": "Example product A",
-      "imageURL": "shirt.jpg",
-      "category": "toys",
-      "stock": 5,
-      "createdAt": "2025-10-12T08:00:00Z",
-      "updatedAt": "2025-10-12T08:00:00Z"
-    },
-    {
-      "id": 2,
-      "name": "Product B",
-      "price": 29.99,
-      "description": "Example product B",
-      "imageURL": "purse.jpg",
-      "category": "books",
-      "stock": 10,
-      "createdAt": "2025-10-12T08:00:00Z",
-      "updatedAt": "2025-10-12T08:00:00Z"
-    },
-    {
-      "id": 3,
-      "name": "Product C",
-      "price": 9.99,
-      "description": "Example product C",
-      "imageURL": "necklace.jpg",
-      "category": "stationery",
-      "stock": 20,
-      "createdAt": "2025-10-12T08:00:00Z",
-      "updatedAt": "2025-10-12T08:00:00Z"
-    }
-    ,
-    {
-      "id": "1760760500709",
-      "name": "Home Shirt",
-      "type": "T-shirt, Soft cotton",
-      "imageURL": "shirt.jpg"
-    },
-    {
-      "id": "1760760501754",
-      "name": "",
-      "type": "",
-      "imageURL": ""
-    },
-    {
-      "id": "1760760504497",
-      "name": "Home Shirt",
-      "type": "T-shirt, Soft cotton",
-      "imageURL": "shirt.jpg"
-    }
+
   ]
 }

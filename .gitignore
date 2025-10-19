@@ -1,23 +1,68 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Node modules
+node_modules/
 
-# testing
-/coverage
+# Build output
+build/
+dist/
 
-# production
-/build
+# dotenv environment variables files
+.env
+.env.*.local
+.env.local
 
-# misc
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+coverage/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS files
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# Mac system files
+.AppleDouble
+.LSOverride
+
+# Lock files (ignore if you intentionally commit them, otherwise keep)
+# If you keep lockfiles checked-in, remove these lines
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Optional npm cache
+.npm/
+
+# Ignore React/CRA service worker precache manifest generated in build
+precache-manifest.*.js
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Misc
+.coverage
+.nyc_output
+reports/
+
+# Local env for editors
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Ignore local json-server db file if you create one (uncomment if desired)
+# db.json
+
